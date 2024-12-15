@@ -1,9 +1,16 @@
 import React from 'react'
 import { assets, testimonialsData } from '../assets/assets'
+import {motion} from 'framer-motion';
 
 const Testimonial = () => {
   return (
-    <div  className='justify-center my-20 py-12 md:px-28 items-center flex flex-col '>
+    <motion.div  className='justify-center my-20 py-12 md:px-28 items-center flex flex-col '
+    
+    initial={{ opacity:0.2, y: 100 }}
+    transition={{ duration: 1}}
+    whileInView = {{ opacity: 1, y:0 }}
+    viewport={{ once:true }}
+    >
       <h1 className='text-3xl sm:text-4xl font-semibold mb-2'>Customer Testimonial</h1>
       <p className='text-grey-500 mb-12'>What our users are saying</p>
       <div className='flex flex-wrap md:flex-nowrap gap-6'>
@@ -24,7 +31,7 @@ const Testimonial = () => {
           </div>
         ))}
       </div>
-    </div>
+    </motion.div>
   )
 }
 
