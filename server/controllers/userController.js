@@ -1,4 +1,4 @@
-import userModel from "../models/userModel";
+import userModel from "../models/userModel.js";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
@@ -42,7 +42,7 @@ const loginUser = async (req,res) =>{
     if (isMatch) {
       const  token = jwt.sign({id:user._id},process.env.JWT_SECRET)
 
-      return res.json({success:TRUE,token,user:{name:user.name}})
+      return res.json({success:true,token,user:{name:user.name}})
 
     }else{
       return res.json({success:false,message:"invalid credential"})
@@ -52,3 +52,4 @@ const loginUser = async (req,res) =>{
     res.json({success:false, message: error.message})
   }
 }
+export {registerUser,loginUser} 
