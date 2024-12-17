@@ -1,6 +1,6 @@
 
-import { response } from "express";
-import userModel from "../models/userModel";
+
+import userModel from "../models/userModel.js";
 import FormData from 'form-data';
 import axios from 'axios';
 
@@ -14,7 +14,7 @@ export const generateImage = async (req,res) =>{
       return res.json({success:false,message:'Missing Details'})
      }
      if (user.creditBalence === 0 || userModel.creditBalence < 0) {
-      return res.json({success:false,message:'No Credit Balence',creditBalence:user.creditBalence})
+      return res.json({success:false,message:'No Credit Balence',creditBalance:user.creditBalance})
      }
 
      //Creating multipart form data 
@@ -35,12 +35,15 @@ export const generateImage = async (req,res) =>{
 
      //deduct image credit
 
-     await userModel.findByIdAndUpdate(user._id,{creditBalence:user.creditBalence - 1})
-     res.json({success:true,message:'Image Generated',creditBalence:user.creditBalence - 1 , resultImage})
+     await userModel.findByIdAndUpdate(user._id,{creditBalance:user.creditBalance - 1})
+     res.json({success:true,message:'Image Generated',creditBalance:user.creditBalance - 1 , resultImage});
 
   } catch (error) {
-    console.log(MessageChannel.error);
+    console.log(error.message);
+    console.log("samiul");
+
     
     res.json({success:false,message:error.message})
   }
 }
+
