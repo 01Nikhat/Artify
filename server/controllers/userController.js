@@ -54,16 +54,36 @@ const loginUser = async (req,res) =>{
 }
 //for usercredit controller
 
-const userCredits = async (req,res) =>{
+// const userCredits = async (req,res) =>{
 
+//   try {
+//     const {userId} = req.body;
+
+//     const user = await userModel.findById(userId)
+//     res.json({success:true,credits:user.creditbBalance,user:{name:user.name}})
+//   } catch (error) {
+//     console.log(error.message);
+//     res.json({success:false, message: error.message})
+//   }
+// }
+const userCredits = async (req, res) => {
   try {
-    const {userId} = req.body;
+    const { userId } = req.body;
 
-    const user = await userModel.findById(userId)
-    res.json({success:true,credits: user.creditbBalance,user:{name:user.name}})
+    const user = await userModel.findById(userId);
+
+    // Include creditBalance in the user object
+    res.json({
+      success: true,
+      user: {
+        name: user.name,
+        credits: user.creditBalance, // Assuming `creditBalance` exists in your user schema
+      },
+    });
   } catch (error) {
-    console.log(error.message);
-    res.json({success:false, message: error.message})
+    console.error(error.message);
+    res.json({ success: false, message: error.message });
   }
-}
+};
+
 export {registerUser,loginUser,userCredits} 
