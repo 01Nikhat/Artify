@@ -8,7 +8,7 @@ const Navbar = () => {
 //const [user,setUser] = useState(null);
 const navigate = useNavigate();
 const {user,setShowLogin,logOut, credit1} = useContext(AppContext)
-console.log("User:", user, "Credits:", credit1);
+//console.log("User:", user, "Credits:", credit1);
   return (
     <div className='flex items-center justify-between py-4'>
       <Link to="/"><img src={assets.logo} alt="" className='w-28 sm:w-32 lg:w-40'/></Link>

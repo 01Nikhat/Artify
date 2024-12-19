@@ -8,11 +8,15 @@ import { AppContext } from '../context/AppContext';
 
 const GenerateBtn = () => {
 
-   const {user,setShowLogin} = useContext(AppContext);
+   const {user,setShowLogin,credit1} = useContext(AppContext);
     const navigate = useNavigate();
 
       const onClickHandler = ()=>{
         if (user) {
+          if (credit1 === 0) {
+            navigate("/buy");
+            return;
+          }
          navigate('/result')
         }
         else{

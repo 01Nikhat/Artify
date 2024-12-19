@@ -1,10 +1,13 @@
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+
 
 let credit1;
 export const AppContext = createContext();
 const AppContextProvider = (props) =>{
+
   const [user,setUser] = useState(null);
   const [showLogin,setShowLogin] = useState(false);
 
@@ -14,66 +17,40 @@ const AppContextProvider = (props) =>{
 
   const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:4000";
 
+  const navigate = useNavigate();
 
-  /*const loadCreditsData = async () =>{
+
+ 
+
+  const loadCreditsData = async () => {
     try {
-      // const {data} = await axios.get(backendUrl + '/api/user/credits',{headers: {token}});
-
       const { data } = await axios.get(`${backendUrl}/api/user/credits`, {
-        headers: { token },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
-
       if (data.success) {
-        setCredit(data.credits);
-        setUser(data.user);
+        console.log("Credits Data:", data);
+        
+        setCredit(data.user.credits); // Update to data.credits
+        setUser(data.user); // Set user details as needed
+        // Navigate to the buy page if credits are 0
+       // console.log("data.credit value" + data.user.credits);
+        
+        if (data.user.credits === 0) {
+          toast.warning("You have run out of credits. Please purchase more.");
+          navigate('/buy');
+        }
+        console.log('Nikhat:', data.user?.credits);
+        credit1=data.user?.credits;
+      //  console.log('credit1 value is here : ' + credit1);
+        
       }
     } catch (error) {
       console.error("Error fetching credits:", error.response?.data || error.message);
-      toast.error("Failed to load credits. Please try again.");
-      
+      toast.error(error.response?.data?.message || "Failed to load credits. Please try again.");
     }
-  }
-*/
-
-// const loadCreditsData = async () => {
-//   try {
-//     const { data } = await axios.get(`${backendUrl}/api/user/credits`, {
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//       },
-//     });
-//     if (data.success) {
-//       console.log("Credits Data:", data);
-
-//       setCredit(data.user?.credits);
-//       setUser(data.user);
-//     }
-//   } catch (error) {
-//     console.error("Error fetching credits:", error.response?.data || error.message);
-//     toast.error(error.response?.data?.message || "Failed to load credits. Please try again.");
-//   }
-// };
-
-const loadCreditsData = async () => {
-  try {
-    const { data } = await axios.get(`${backendUrl}/api/user/credits`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    if (data.success) {
-      console.log("Credits Data:", data);
-      
-      setCredit(data.credits); // Update to data.credits
-      setUser(data.user); // Set user details as needed
-      console.log('samiul:', data.user?.credits);
-      credit1=data.user?.credits;
-    }
-  } catch (error) {
-    console.error("Error fetching credits:", error.response?.data || error.message);
-    toast.error(error.response?.data?.message || "Failed to load credits. Please try again.");
-  }
-};
+  };
 
 
 
@@ -89,7 +66,33 @@ const loadCreditsData = async () => {
       loadCreditsData();
     console.log('Updated credit:', credit1);
     }
-  },[token])
+  },[token]);
+
+  //generating text to image function 
+
+  const generateImage = async (prompt) =>{
+      try {
+       const {data} = await axios.post(backendUrl + '/api/image/generate-image',{prompt},
+        { headers: { Authorization: `Bearer ${token}` } } );
+       if (data.success) {
+        loadCreditsData();
+        return data.resultImage;
+        
+       }
+       else{
+        toast.error(data.message);
+        loadCreditsData();
+        if (data.user.credits === 0) {
+          navigate('/buy'); // Navigate to buy page if credits are 0
+        }
+        
+       }
+      } catch (error) {
+        console.log("erroe on catch ");
+        toast.error(error.message);
+        
+      }
+  }
 
   //ending backend to frontend part, below in const value used this value
   // console.log('samiul:' + credit);
@@ -97,6 +100,7 @@ const loadCreditsData = async () => {
   console.log('Updated credit:', credit1);
   const value = {
     user,setUser,showLogin,setShowLogin, backendUrl,token,setToken,credit1,setCredit,loadCreditsData,logOut
+    ,generateImage
   };
   return(
     <AppContext.Provider value={value} >
