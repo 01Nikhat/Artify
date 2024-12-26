@@ -67,23 +67,51 @@ const loginUser = async (req,res) =>{
 //     res.json({success:false, message: error.message})
 //   }
 // }
+
+//user ccredits method 
+// const userCredits = async (req, res) => {
+//   try {
+//     const { userId } = req.body;
+
+//     const user = await userModel.findById(userId);
+
+//     // Include creditBalance in the user object
+//     res.json({
+//       success: true,
+//       credits: user.creditBalance,
+//       user: {
+//         name: user.name,
+//       },
+//     });
+//   } catch (error) {
+//     console.error(error.message);
+//     res.json({ success: false, message: error.message });
+//   }
+// };
+
+//updated usercrdits method
 const userCredits = async (req, res) => {
   try {
-    const { userId } = req.body;
+    const token = req.headers.authorization?.split(" ")[1];
+    if (!token) return res.status(401).json({ success: false, message: "Unauthorized" });
 
-    const user = await userModel.findById(userId);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await userModel.findById(decoded.id);
+    if (!user) return res.status(404).json({ success: false, message: "User not found" });
 
-    // Include creditBalance in the user object
     res.json({
       success: true,
       user: {
         name: user.name,
-        credits: user.creditBalance, // Assuming `creditBalance` exists in your user schema
+        credits: user.creditBalance,
       },
     });
+    console.log('credit balance'+ user.creditBalance);
+    
   } catch (error) {
-    console.error(error.message);
-    res.json({ success: false, message: error.message });
+    res.status(401).json({ success: false, message: "Invalid token" });
+    console.log("error on usercontroller of usercredits catch part");
+    
   }
 };
 

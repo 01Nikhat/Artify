@@ -7,13 +7,19 @@ import axios from 'axios';
 export const generateImage = async (req,res) =>{
   try {
     const {userId,prompt} = req.body;
-
+      console.log("userid:" + userId);
+      console.log("prompt data: "+ prompt);
+      
+      
      const user = await userModel.findById(userId);
-
+      console.log("user value on imagecontroller :" + user);
+      
      if (!user || !prompt) {
       return res.json({success:false,message:'Missing Details'})
      }
-     if (user.creditBalence === 0 || userModel.creditBalence < 0) {
+     console.log("user,creditbalance on imagecontroller: "+ user.creditBalance);
+     
+     if (user.creditBalance  <= 0) {
       return res.json({success:false,message:'No Credit Balence',creditBalance:user.creditBalance})
      }
 
@@ -21,17 +27,22 @@ export const generateImage = async (req,res) =>{
 
      const formData = new FormData()
      formData.append('prompt',prompt)
+     console.log('API Key:', process.env.CLIPDROP_API);
 
      const {data} = await axios.post('https://clipdrop-api.co/text-to-image/v1',formData,{
       headers: {
+       
         'x-api-key': process.env.CLIPDROP_API,
       },
       responseType:'arraybuffer'
      })
-
+     console.log("data succcess value on imagecontroller :"+ data.success + {data});
+     
      const base64Image = Buffer.from(data,'binary').toString('base64')
 
      const resultImage = `data:image/png;base64,${base64Image}`
+     console.log("resultImage :"+ resultImage);
+     
 
      //deduct image credit
 
@@ -40,7 +51,7 @@ export const generateImage = async (req,res) =>{
 
   } catch (error) {
     console.log(error.message);
-    console.log("samiul");
+    console.log("error on imagecontroller");
 
     
     res.json({success:false,message:error.message})

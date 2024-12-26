@@ -33,9 +33,11 @@ const AppContextProvider = (props) =>{
         console.log("Credits Data:", data);
         
         setCredit(data.user.credits); // Update to data.credits
+        console.log("updated credit value on loadscredit method :"+ data.user.credits);
+        
         setUser(data.user); // Set user details as needed
         // Navigate to the buy page if credits are 0
-       // console.log("data.credit value" + data.user.credits);
+       console.log("data.credit value" + data.user.credits);
         
         if (data.user.credits === 0) {
           toast.warning("You have run out of credits. Please purchase more.");
@@ -70,29 +72,66 @@ const AppContextProvider = (props) =>{
 
   //generating text to image function 
 
+  // const generateImage = async (prompt) =>{
+  //     try {
+  //      const {data} = await axios.post(backendUrl + '/api/image/generate-image',{prompt},
+  //       { headers: { Authorization: `Bearer ${token}` } } );
+  //      if (data.success) {
+  //       loadCreditsData();
+  //       return data.resultImage;
+        
+  //      }
+  //      else{
+  //       toast.error(data.message);
+  //       loadCreditsData();
+  //       if (data.user.credits === 0) {
+  //         navigate('/buy'); // Navigate to buy page if credits are 0
+  //       }
+        
+  //      }
+  //     } catch (error) {
+  //       console.log("erroe on catch ");
+  //       toast.error(error.message);
+        
+  //     }
+  // }
+
+  //generating text to image function 
+
   const generateImage = async (prompt) =>{
-      try {
-       const {data} = await axios.post(backendUrl + '/api/image/generate-image',{prompt},
-        { headers: { Authorization: `Bearer ${token}` } } );
-       if (data.success) {
-        loadCreditsData();
-        return data.resultImage;
-        
-       }
-       else{
-        toast.error(data.message);
-        loadCreditsData();
-        if (data.user.credits === 0) {
-          navigate('/buy'); // Navigate to buy page if credits are 0
-        }
-        
-       }
-      } catch (error) {
-        console.log("erroe on catch ");
-        toast.error(error.message);
-        
+    console.log("prompt value on appcontext :"+ prompt);
+    console.log("token on generate image :"+ token);
+    
+    
+    try {
+     const {data} = await axios.post(`${backendUrl}/api/image/generate-image`,{prompt},
+      { headers: { Authorization: `Bearer ${token}` } } );
+      console.log("data success value on generate image :"+ data.success + {data});
+      
+     if (data.success) {
+      loadCreditsData();
+      console.log("data is return here");
+      return data.resultImage;
+     
+      
+      
+     }
+     else{
+      console.log("data goes to else part of generateImage");
+      
+      toast.error(data.message);
+      loadCreditsData();
+      if (data.user.credits === 0) {
+        navigate('/buy'); // Navigate to buy page if credits are 0
       }
-  }
+      
+     }
+    } catch (error) {
+      console.log("erroe on catch of appcontext of generateimage method");
+      toast.error(error.message);
+      
+    }
+}
 
   //ending backend to frontend part, below in const value used this value
   // console.log('samiul:' + credit);
