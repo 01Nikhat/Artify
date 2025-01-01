@@ -55,19 +55,19 @@ const loginUser = async (req,res) =>{
 }
 //for usercredit controller
 
-const userCredits = async (req,res) =>{
+// const userCredits = async (req,res) =>{
 
-  try {
-    const {userId} = req.body;
+//   try {
+//     const {userId} = req.body;
 
-    const user = await userModel.findById(userId)
-    res.json({success:true,credits:user.creditBalance,user:{name:user.name}})
-     console.log('credit balance'+ user.creditBalance);
-  } catch (error) {
-    console.log(error.message);
-    res.json({success:false, message: error.message})
-  }
-}
+//     const user = await userModel.findById(userId)
+//     res.json({success:true,credits:user.creditBalance,user:{name:user.name}})
+//      console.log('credit balance'+ user.creditBalance);
+//   } catch (error) {
+//     console.log(error.message);
+//     res.json({success:false, message: error.message})
+//   }
+// }
 
 //user ccredits method 
 // const userCredits = async (req, res) => {
@@ -91,30 +91,30 @@ const userCredits = async (req,res) =>{
 // };
 
 //updated usercrdits method
-// const userCredits = async (req, res) => {
-//   try {
-//     const token = req.headers.authorization?.split(" ")[1];
-//     if (!token) return res.status(401).json({ success: false, message: "Unauthorized" });
+const userCredits = async (req, res) => {
+  try {
+    const token = req.headers.authorization?.split(" ")[1];
+    if (!token) return res.status(401).json({ success: false, message: "Unauthorized" });
 
-//     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-//     const user = await userModel.findById(decoded.id);
-//     if (!user) return res.status(404).json({ success: false, message: "User not found" });
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await userModel.findById(decoded.id);
+    if (!user) return res.status(404).json({ success: false, message: "User not found" });
 
-//     res.json({
-//       success: true,
-//       user: {
-//         name: user.name,
-//         credits: user.creditBalance,
-//       },
-//     });
-//     console.log('credit balance'+ user.creditBalance);
+    res.json({
+      success: true,
+      user: {
+        name: user.name,
+        credits: user.creditBalance,
+      },
+    });
+    console.log('credit balance'+ user.creditBalance);
     
-//   } catch (error) {
-//     res.status(401).json({ success: false, message: "Invalid token" });
-//     console.log("error on usercontroller of usercredits catch part");
+  } catch (error) {
+    res.status(401).json({ success: false, message: "Invalid token" });
+    console.log("error on usercontroller of usercredits catch part");
     
-//   }
-// };
+  }
+};
 
 //razorpay method 
 
