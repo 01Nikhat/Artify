@@ -3,6 +3,8 @@ import upload_btn_icon from './upload_btn_icon.svg'
 import download_icon_bg from './download_icon_bg.svg'
 import upload_icon from './upload_icon.svg'
 import remove_bg_icon from './remove_bg_icon.svg'
+import image_w_bg from './image_w_bg.png'
+import image_wo_bg from './image_wo_bg.png'
 
 import logo from './logo.svg'
 import arrow_icon from './arrow_icon.svg'
@@ -47,7 +49,9 @@ export const assets = {
     arrow_icon,
     remove_bg_icon,
     upload_btn_icon,
-    upload_icon
+    upload_icon,
+    image_w_bg,
+    image_wo_bg
 }
 
 export const stepsData = [
@@ -83,13 +87,7 @@ export const testimonialsData = [
         stars:5,
         text:`I've been using bg.removal for nearly two years, primarily for Instagram, and it has been incredibly user-friendly, making my work much easier.`
     },
-    {
-        image:profile_img_1,
-        name:'Donald Jackman',
-        role:' Graphic Designer',
-        stars:5,
-        text:`I've been using bg.removal for nearly two years, primarily for Instagram, and it has been incredibly user-friendly, making my work much easier.`
-    },
+    
 ]
 
 export const plans = [

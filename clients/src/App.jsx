@@ -10,6 +10,7 @@ import { AppContext } from './context/AppContext';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import BgRemoval from './pages/BgRemoval';
+import BgResult from './pages/BgResult';
 
 const App = () => {
   const {showLogin} = useContext(AppContext);
@@ -23,6 +24,7 @@ const App = () => {
             <Route path='/result' element={<Result />} />
             <Route path='/buy' element={<BuyCredit />} />
             <Route path='/bgremoval' element={<BgRemoval />} />
+            <Route path='/bgreult' element={<BgResult />} />
             
           </Routes>
           <Footer />
