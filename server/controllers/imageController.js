@@ -19,28 +19,31 @@ export const generateImage = async (req,res) =>{
      }
      console.log("user,creditbalance on imagecontroller: "+ user.creditBalance);
      
-     if (user.creditBalance  <= 0) {
+     if (user.creditBalance  === 0 || user.creditBalance < 0) {
       return res.json({success:false,message:'No Credit Balence',creditBalance:user.creditBalance})
      }
 
      //Creating multipart form data 
 
      const formData = new FormData()
+     console.log("form data" + formData.getBuffer());
+     
      formData.append('prompt',prompt)
      console.log('API Key:', process.env.CLIPDROP_API);
 
      const {data} = await axios.post('https://clipdrop-api.co/text-to-image/v1',formData,{
+      
       headers: {
        
-        'x-api-key': process.env.CLIPDROP_API,
+        'x-api-key': "12ba614bf4f8c9e9a49d7da26c717f60e2ac46c5425881a931aad4b7449d43a106a8cf256c0ccf971e5a16dba318ff85",
+        
       },
       responseType:'arraybuffer'
      })
      console.log("data succcess value on imagecontroller :"+ data.success + {data});
      
-     const base64Image = Buffer.from(data,'binary').toString('base64')
-
-     const resultImage = `data:image/png;base64,${base64Image}`
+     const base64Image = Buffer.from(data, 'binary').toString('base64');
+    const resultImage = `data:image/png;base64,${base64Image}`;
      console.log("resultImage :"+ resultImage);
      
 
@@ -52,9 +55,8 @@ export const generateImage = async (req,res) =>{
   } catch (error) {
     console.log(error.message);
     console.log("error on imagecontroller");
-
-    
-    res.json({success:false,message:error.message})
+    console.error('Error response:', error.response?.data || error.message);
+    res.json({ success: false, message: error.message });
   }
 }
 
