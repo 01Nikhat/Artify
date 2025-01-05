@@ -24,7 +24,7 @@ const App = () => {
             <Route path='/result' element={<Result />} />
             <Route path='/buy' element={<BuyCredit />} />
             <Route path='/bgremoval' element={<BgRemoval />} />
-            <Route path='/bgreult' element={<BgResult />} />
+            <Route path='/bgresult' element={<BgResult />} />
             
           </Routes>
           <Footer />

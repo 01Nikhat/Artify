@@ -4,6 +4,7 @@ import userModel from "../models/userModel.js";
 import FormData from 'form-data';
 import axios from 'axios';
 
+
 export const generateImage = async (req,res) =>{
   try {
     const {userId,prompt} = req.body;
@@ -59,4 +60,5 @@ export const generateImage = async (req,res) =>{
     res.json({ success: false, message: error.message });
   }
 }
+
 

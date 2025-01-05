@@ -5,6 +5,7 @@ import upload_icon from './upload_icon.svg'
 import remove_bg_icon from './remove_bg_icon.svg'
 import image_w_bg from './image_w_bg.png'
 import image_wo_bg from './image_wo_bg.png'
+import bg_layer from './bg_layer.png'
 
 import logo from './logo.svg'
 import arrow_icon from './arrow_icon.svg'
@@ -51,7 +52,8 @@ export const assets = {
     upload_btn_icon,
     upload_icon,
     image_w_bg,
-    image_wo_bg
+    image_wo_bg,
+    bg_layer
 }
 
 export const stepsData = [
