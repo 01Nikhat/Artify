@@ -4,6 +4,7 @@ import fs from 'fs';
 
 export const removeBackground = async (req, res) => {
   try {
+    
     if (!req.file) {
       return res.status(400).json({ error: 'No image file uploaded' });
     }
@@ -30,9 +31,13 @@ export const removeBackground = async (req, res) => {
 
     res.set('Content-Type', 'image/png');
     res.send(buffer);
+   
   } catch (error) {
     console.error('Error removing background:', error);
     res.status(500).json({ error: 'Error removing background' });
   }
 };
+
+
+
 

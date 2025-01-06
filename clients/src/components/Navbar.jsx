@@ -11,7 +11,7 @@ const {user,setShowLogin,logOut, credit} = useContext(AppContext)
 //console.log("User:", user, "Credits:", credit);
   return (
     <div className='flex items-center justify-between py-4'>
-      <Link to="/BgRemaoval"><img src={assets.logo} alt="" className='w-28 sm:w-32 lg:w-40'/></Link>
+      <Link to="/"><img src={assets.logo} alt="" className='w-28 sm:w-32 lg:w-40'/></Link>
 
       <div >
         {user ? 
@@ -19,7 +19,7 @@ const {user,setShowLogin,logOut, credit} = useContext(AppContext)
         <div className='flex items-center gap-2 sm:gap-3'>
           <div className='flex items-center justify-between'>
           
-            <button className="bg-zinc-800 text-white flex items-center gap-4 px-4 py-2 sm:px-8 sm:py-3 text-sm rounded-full ">BG Removal <img className='w-3 sm:w-4' src={assets.arrow_icon} alt="" /></button>
+            <button className="bg-zinc-800 text-white flex items-center gap-4 px-4 py-2 sm:px-8 sm:py-3 text-sm rounded-full " onClick={() => navigate('/bgremoval')}>BG Removal <img className='w-3 sm:w-4' src={assets.arrow_icon} alt="" /></button>
           </div>
           <button onClick={()=>navigate('/buy')} className='flex items-center gap-2 bg-blue-100 px-4 sm:px-6 py-1.5 sm:py-3 rounded-full hover:scale-105 transition-all duration-700'>
             <img className='w-5' src={assets.credit_star} alt="" />

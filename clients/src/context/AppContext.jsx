@@ -106,6 +106,9 @@ export const AppContext = createContext();
 // }
 // export default AppContextProvider;
 
+//////////////////////////////////////////////////////////////////////////////
+
+//updated appcontext
 
 export const useAppContext = () => useContext(AppContext);
 
@@ -233,6 +236,7 @@ const AppContextProvider = (props) => {
   //   }
   // };
   
+  ////////////////////////////////////////////////////
 
   const uploadAndRemoveBackground = async (file) => {
     setIsLoading(true);
@@ -262,6 +266,7 @@ const AppContextProvider = (props) => {
     }
   };
 
+  
   const value = {
     user,
     setUser,
@@ -286,3 +291,11 @@ const AppContextProvider = (props) => {
 };
 
 export default AppContextProvider;
+
+//////////////////////////////////////////////////////////////
+
+
+
+
+
+
