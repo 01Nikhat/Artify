@@ -1,24 +1,27 @@
-import axios from "axios";
-import { createContext, useEffect, useState,useContext } from "react";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-export const AppContext = createContext();
+// import axios from "axios";
+// import { createContext, useEffect, useState,useContext } from "react";
+// import { toast } from "react-toastify";
+// import { useNavigate } from "react-router-dom";
+// export const AppContext = createContext();
 
 
-// let credit;
-// const AppContextProvider = (props) =>{
+// export const useAppContext = () => useContext(AppContext);
 
-//   const [user,setUser] = useState(null);
-//   const [showLogin,setShowLogin] = useState(false);
-
-//   //connecting backend to frontend part
-//   const [token , setToken ] = useState(localStorage.getItem('token'));
-//   const [credit,setCredit] = useState(false);
+// const AppContextProvider = (props) => {
+//   const [user, setUser] = useState(null);
+//   const [showLogin, setShowLogin] = useState(false);
+//   const [token, setToken] = useState(localStorage.getItem("token"));
+//   const [image,setImage] = useState(false);
+//   //adding for removebg
+//   const [originalImage, setOriginalImage] = useState(null);
+//   const [processedImage, setProcessedImage] = useState(null);
+//   const [isLoading, setIsLoading] = useState(false);
+//   const [error, setError] = useState(null);
+//   console.log("nikhat " + token);
+//   const [credit, setCredit] = useState(0);
 
 //   const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:4000";
-
 //   const navigate = useNavigate();
-
 
 //   const loadCreditsData = async () => {
 //     try {
@@ -42,39 +45,34 @@ export const AppContext = createContext();
 //       toast.error(error.response?.data?.message || "Failed to load credits.");
 //     }
 //   };
-  
-  
 
-
-//   const logOut = () =>{
-//     localStorage.removeItem('token');
-//     setToken('');
+//   const logOut = () => {
+//     localStorage.removeItem("token");
+//     setToken("");
 //     setUser(null);
-//   }
+//   };
 
-//   useEffect(()=>{
+//   useEffect(() => {
 //     if (token) {
-//       console.log("Token:", token);
 //       loadCreditsData();
-//     console.log('Updated credit:', credit);
 //     }
-//   },[token]);
+//   }, [token]);
 
-
+//   //generate image function
 
 //   const generateImage = async (prompt) => {
 //     if (!token) {
 //       toast.error("Please log in to generate images.");
 //       return;
 //     }
-  
+
 //     try {
 //       const { data } = await axios.post(
 //         `${backendUrl}/api/image/generate-image`,
 //         { prompt },
 //         { headers: { Authorization: `Bearer ${token}` } }
 //       );
-  
+
 //       if (data.success) {
 //         loadCreditsData();
 //         return data.resultImage;
@@ -89,26 +87,73 @@ export const AppContext = createContext();
 //       toast.error(error.response?.data?.message || "Error generating image.");
 //     }
 //   };
+
   
-//   //ending backend to frontend part, below in const value used this value
-//   console.log('samiul:' + credit);
-  
-//   console.log('Updated credit:', credit);
-//   const value = {
-//     user,setUser,showLogin,setShowLogin, backendUrl,token,setToken,credit,setCredit,loadCreditsData,logOut
-//     ,generateImage
+ 
+//   ////////////////////////////////////////////////////
+
+//   const uploadAndRemoveBackground = async (file) => {
+//     setIsLoading(true);
+//     setError(null);
+
+//     const formData = new FormData();
+//     formData.append('image', file);
+
+//     try {
+//       setOriginalImage(URL.createObjectURL(file));
+
+//       const response = await fetch('http://localhost:4000/api/remove-bg', {
+//         method: 'POST',
+//         body: formData,
+//       });
+
+//       if (!response.ok) {
+//         throw new Error('Failed to remove background');
+//       }
+
+//       const blob = await response.blob();
+//       setProcessedImage(URL.createObjectURL(blob));
+//     } catch (err) {
+//       setError(err.message);
+//     } finally {
+//       setIsLoading(false);
+//     }
 //   };
-//   return(
-//     <AppContext.Provider value={value} >
-//       {props.children}
-//     </AppContext.Provider>
-//   )
-// }
+
+  
+//   const value = {
+//     user,
+//     setUser,
+//     showLogin,
+//     setShowLogin,
+//     backendUrl,
+//     token,
+//     setToken,
+//     credit, // Pass credit state
+//     setCredit,
+//     loadCreditsData,
+//     logOut,
+//     generateImage,
+//     originalImage,
+//     processedImage,
+//     isLoading,
+//     error,
+//     uploadAndRemoveBackground,
+//   };
+
+//   return <AppContext.Provider value={value}>{props.children}</AppContext.Provider>;
+// };
+
 // export default AppContextProvider;
 
-//////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////////
 
-//updated appcontext
+import axios from "axios";
+import { createContext, useEffect, useState, useContext } from "react";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+
+export const AppContext = createContext();
 
 export const useAppContext = () => useContext(AppContext);
 
@@ -116,13 +161,11 @@ const AppContextProvider = (props) => {
   const [user, setUser] = useState(null);
   const [showLogin, setShowLogin] = useState(false);
   const [token, setToken] = useState(localStorage.getItem("token"));
-  const [image,setImage] = useState(false);
-  //adding for removebg
+  const [image, setImage] = useState(false);
   const [originalImage, setOriginalImage] = useState(null);
   const [processedImage, setProcessedImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  console.log("nikhat " + token);
   const [credit, setCredit] = useState(0);
 
   const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:4000";
@@ -136,7 +179,7 @@ const AppContextProvider = (props) => {
         },
       });
       if (data.success && data.user) {
-        setCredit(data.user.credits || 0); // Fallback to 0 if undefined
+        setCredit(data.user.credits || 0);
         setUser(data.user);
         if (data.user.credits === 0) {
           toast.warning("You have run out of credits. Please purchase more.");
@@ -155,6 +198,7 @@ const AppContextProvider = (props) => {
     localStorage.removeItem("token");
     setToken("");
     setUser(null);
+    setCredit(0);
   };
 
   useEffect(() => {
@@ -163,84 +207,45 @@ const AppContextProvider = (props) => {
     }
   }, [token]);
 
-  //generate image function
-
   const generateImage = async (prompt) => {
-    if (!token) {
-      toast.error("Please log in to generate images.");
-      return;
-    }
-
-    try {
-      const { data } = await axios.post(
-        `${backendUrl}/api/image/generate-image`,
-        { prompt },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-
-      if (data.success) {
-        loadCreditsData();
-        return data.resultImage;
-      } else {
-        toast.error(data.message || "Failed to generate image.");
-        if (data.user?.credits === 0) {
-          navigate("/buy");
+        if (!token) {
+          toast.error("Please log in to generate images.");
+          return;
         }
-      }
-    } catch (error) {
-      console.error("Error generating image:", error.response || error.message);
-      toast.error(error.response?.data?.message || "Error generating image.");
-    }
-  };
-
-  // const removeBgImage = async (req, res) => {
-  //   try {
-  //     const { userId } = req.body;
-  
-  //     const user = await userModel.findById(userId);
-  //     if (!user) {
-  //       return res.status(404).json({ success: false, message: "User not found" });
-  //     }
-  
-  //     if (user.creditBalance <= 0) {
-  //       return res.status(400).json({ success: false, message: "Insufficient credits", creditBalance: user.creditBalance });
-  //     }
-  
-  //     const imagePath = req.file.path;
-  //     const imageFile = fs.createReadStream(imagePath);
-  
-  //     const formData = new FormData();
-  //     formData.append('image_file', imageFile);
-  
-  //     const { data } = await axios.post(
-  //       "https://clipdrop-api.co/remove-background/v1",
-  //       formData,
-  //       {
-  //         headers: { 'x-api-key': "12ba614bf4f8c9e9a49d7da26c717f60e2ac46c5425881a931aad4b7449d43a106a8cf256c0ccf971e5a16dba318ff85" },
-  //         responseType: "arraybuffer",
-  //       }
-  //     );
-  
-  //     const base64Image = Buffer.from(data, "binary").toString("base64");
-  //     const resultImage = `data:image/png;base64,${base64Image}`;
-  
-  //     await userModel.findByIdAndUpdate(user._id, { creditBalance: user.creditBalance - 1 });
-  
-  //     res.json({ success: true, resultImage, creditBalance: user.creditBalance - 1, message: "Background removed successfully" });
-  
-  //     // Cleanup
-  //     fs.unlinkSync(imagePath);
-  //   } catch (error) {
-  //     console.error("Error removing background:", error.message);
-  //     res.status(500).json({ success: false, message: "An error occurred while processing the image" });
-  //   }
-  // };
-  
-  ////////////////////////////////////////////////////
+    
+        try {
+          const { data } = await axios.post(
+            `${backendUrl}/api/image/generate-image`,
+            { prompt },
+            { headers: { Authorization: `Bearer ${token}` } }
+          );
+    
+          if (data.success) {
+            loadCreditsData();
+            return data.resultImage;
+          } else {
+            toast.error(data.message || "Failed to generate image.");
+            if (data.user?.credits === 0) {
+              navigate("/buy");
+            }
+          }
+        } catch (error) {
+          console.error("Error generating image:", error.response || error.message);
+          toast.error(error.response?.data?.message || "Error generating image.");
+        }
+      };
+    
+      
 
   const uploadAndRemoveBackground = async (file) => {
     setIsLoading(true);
     setError(null);
+
+    if (!token) {
+      setError("Please log in to remove background.");
+      setIsLoading(false);
+      return;
+    }
 
     const formData = new FormData();
     formData.append('image', file);
@@ -248,25 +253,42 @@ const AppContextProvider = (props) => {
     try {
       setOriginalImage(URL.createObjectURL(file));
 
-      const response = await fetch('http://localhost:4000/api/remove-bg', {
-        method: 'POST',
-        body: formData,
-      });
+      const response = await axios.post(
+        `${backendUrl}/api/remove-bg`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-      if (!response.ok) {
-        throw new Error('Failed to remove background');
+      console.log("Response from server:", response.data);
+
+      if (response.data.success) {
+        const base64Image = response.data.image;
+        setProcessedImage(`data:image/png;base64,${base64Image}`);
+        setCredit(response.data.creditBalance);
+        toast.success("Background removed successfully!");
+      } else {
+        throw new Error(response.data.message || 'Failed to remove background');
       }
-
-      const blob = await response.blob();
-      setProcessedImage(URL.createObjectURL(blob));
     } catch (err) {
-      setError(err.message);
+      console.error('Error removing background:', err);
+      setError(err.response?.data?.message || err.message);
+      if (err.response?.status === 401) {
+        toast.error("Authentication failed. Please log in again.");
+        logOut();
+      } else if (err.response?.status === 403) {
+        toast.error("Insufficient credits. Please purchase more.");
+        navigate("/buy");
+      }
     } finally {
       setIsLoading(false);
     }
   };
 
-  
   const value = {
     user,
     setUser,
@@ -275,11 +297,11 @@ const AppContextProvider = (props) => {
     backendUrl,
     token,
     setToken,
-    credit, // Pass credit state
+    credit,
     setCredit,
     loadCreditsData,
-    logOut,
     generateImage,
+    logOut,
     originalImage,
     processedImage,
     isLoading,
@@ -291,11 +313,4 @@ const AppContextProvider = (props) => {
 };
 
 export default AppContextProvider;
-
-//////////////////////////////////////////////////////////////
-
-
-
-
-
 
