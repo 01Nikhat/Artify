@@ -208,34 +208,32 @@ const AppContextProvider = (props) => {
   }, [token]);
 
   const generateImage = async (prompt) => {
-        if (!token) {
-          toast.error("Please log in to generate images.");
-          return;
+    if (!token) {
+      toast.error("Please log in to generate images.");
+      return;
+    }
+
+    try {
+      const { data } = await axios.post(
+        `${backendUrl}/api/image/generate-image`,
+        { prompt },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      if (data.success) {
+        loadCreditsData();
+        return data.resultImage;
+      } else {
+        toast.error(data.message || "Failed to generate image.");
+        if (data.user?.credits === 0) {
+          navigate("/buy");
         }
-    
-        try {
-          const { data } = await axios.post(
-            `${backendUrl}/api/image/generate-image`,
-            { prompt },
-            { headers: { Authorization: `Bearer ${token}` } }
-          );
-    
-          if (data.success) {
-            loadCreditsData();
-            return data.resultImage;
-          } else {
-            toast.error(data.message || "Failed to generate image.");
-            if (data.user?.credits === 0) {
-              navigate("/buy");
-            }
-          }
-        } catch (error) {
-          console.error("Error generating image:", error.response || error.message);
-          toast.error(error.response?.data?.message || "Error generating image.");
-        }
-      };
-    
-      
+      }
+    } catch (error) {
+      console.error("Error generating image:", error.response || error.message);
+      toast.error(error.response?.data?.message || "Error generating image.");
+    }
+  };
 
   const uploadAndRemoveBackground = async (file) => {
     setIsLoading(true);
@@ -289,6 +287,71 @@ const AppContextProvider = (props) => {
     }
   };
 
+  /*          Payment Function          */
+  const initiatePayment = async (plan) => {
+    if (!plan || !plan.price || !plan.id || !plan.credits) {
+      toast.error("Invalid plan details.");
+      return;
+    }
+
+    try {
+      const { data } = await axios.post(
+        `${backendUrl}/api/transaction/create-order`,
+        { amount: plan.price, plan: plan.id, credits: plan.credits },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      if (data.success) {
+        const options = {
+          key: data.key,
+          amount: data.order.amount,
+          currency: "INR",
+          name: "Imagify",
+          description: `Purchase ${plan.credits} credits`,
+          order_id: data.order.id,
+          handler: async (response) => {
+            try {
+              const verificationData = await axios.post(
+                `${backendUrl}/api/transaction/verify-payment`,
+                response,
+                {
+                  headers: { Authorization: `Bearer ${token}` },
+                }
+              );
+
+              if (verificationData.data.success) {
+                setCredit(verificationData.data.credits);
+                toast.success("Payment successful! Credits added to your account.");
+              } else {
+                toast.error("Payment verification failed.");
+              }
+            } catch (error) {
+              console.error("Verification error:", error);
+              toast.error("Error verifying payment.");
+            }
+          },
+          prefill: {
+            name: user?.name,
+            email: user?.email,
+          },
+          theme: {
+            color: "#3399cc",
+          },
+        };
+
+        const rzp = new window.Razorpay(options);
+        rzp.open();
+      } else {
+        toast.error("Failed to create order.");
+      }
+    } catch (error) {
+      console.error("Payment initiation error:", error);
+      toast.error("Error initiating payment.");
+    }
+  };
+
   const value = {
     user,
     setUser,
@@ -307,10 +370,10 @@ const AppContextProvider = (props) => {
     isLoading,
     error,
     uploadAndRemoveBackground,
+    initiatePayment,
   };
 
   return <AppContext.Provider value={value}>{props.children}</AppContext.Provider>;
 };
 
 export default AppContextProvider;
-
