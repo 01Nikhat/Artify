@@ -1,152 +1,3 @@
-// import axios from "axios";
-// import { createContext, useEffect, useState,useContext } from "react";
-// import { toast } from "react-toastify";
-// import { useNavigate } from "react-router-dom";
-// export const AppContext = createContext();
-
-
-// export const useAppContext = () => useContext(AppContext);
-
-// const AppContextProvider = (props) => {
-//   const [user, setUser] = useState(null);
-//   const [showLogin, setShowLogin] = useState(false);
-//   const [token, setToken] = useState(localStorage.getItem("token"));
-//   const [image,setImage] = useState(false);
-//   //adding for removebg
-//   const [originalImage, setOriginalImage] = useState(null);
-//   const [processedImage, setProcessedImage] = useState(null);
-//   const [isLoading, setIsLoading] = useState(false);
-//   const [error, setError] = useState(null);
-//   console.log("nikhat " + token);
-//   const [credit, setCredit] = useState(0);
-
-//   const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:4000";
-//   const navigate = useNavigate();
-
-//   const loadCreditsData = async () => {
-//     try {
-//       const { data } = await axios.get(`${backendUrl}/api/user/credits`, {
-//         headers: {
-//           Authorization: `Bearer ${token}`,
-//         },
-//       });
-//       if (data.success && data.user) {
-//         setCredit(data.user.credits || 0); // Fallback to 0 if undefined
-//         setUser(data.user);
-//         if (data.user.credits === 0) {
-//           toast.warning("You have run out of credits. Please purchase more.");
-//           navigate("/buy");
-//         }
-//       } else {
-//         toast.error("Failed to load user data.");
-//       }
-//     } catch (error) {
-//       console.error("Error loading credits:", error.response || error.message);
-//       toast.error(error.response?.data?.message || "Failed to load credits.");
-//     }
-//   };
-
-//   const logOut = () => {
-//     localStorage.removeItem("token");
-//     setToken("");
-//     setUser(null);
-//   };
-
-//   useEffect(() => {
-//     if (token) {
-//       loadCreditsData();
-//     }
-//   }, [token]);
-
-//   //generate image function
-
-//   const generateImage = async (prompt) => {
-//     if (!token) {
-//       toast.error("Please log in to generate images.");
-//       return;
-//     }
-
-//     try {
-//       const { data } = await axios.post(
-//         `${backendUrl}/api/image/generate-image`,
-//         { prompt },
-//         { headers: { Authorization: `Bearer ${token}` } }
-//       );
-
-//       if (data.success) {
-//         loadCreditsData();
-//         return data.resultImage;
-//       } else {
-//         toast.error(data.message || "Failed to generate image.");
-//         if (data.user?.credits === 0) {
-//           navigate("/buy");
-//         }
-//       }
-//     } catch (error) {
-//       console.error("Error generating image:", error.response || error.message);
-//       toast.error(error.response?.data?.message || "Error generating image.");
-//     }
-//   };
-
-  
- 
-//   ////////////////////////////////////////////////////
-
-//   const uploadAndRemoveBackground = async (file) => {
-//     setIsLoading(true);
-//     setError(null);
-
-//     const formData = new FormData();
-//     formData.append('image', file);
-
-//     try {
-//       setOriginalImage(URL.createObjectURL(file));
-
-//       const response = await fetch('http://localhost:4000/api/remove-bg', {
-//         method: 'POST',
-//         body: formData,
-//       });
-
-//       if (!response.ok) {
-//         throw new Error('Failed to remove background');
-//       }
-
-//       const blob = await response.blob();
-//       setProcessedImage(URL.createObjectURL(blob));
-//     } catch (err) {
-//       setError(err.message);
-//     } finally {
-//       setIsLoading(false);
-//     }
-//   };
-
-  
-//   const value = {
-//     user,
-//     setUser,
-//     showLogin,
-//     setShowLogin,
-//     backendUrl,
-//     token,
-//     setToken,
-//     credit, // Pass credit state
-//     setCredit,
-//     loadCreditsData,
-//     logOut,
-//     generateImage,
-//     originalImage,
-//     processedImage,
-//     isLoading,
-//     error,
-//     uploadAndRemoveBackground,
-//   };
-
-//   return <AppContext.Provider value={value}>{props.children}</AppContext.Provider>;
-// };
-
-// export default AppContextProvider;
-
-// //////////////////////////////////////////////////////////////
 
 import axios from "axios";
 import { createContext, useEffect, useState, useContext } from "react";
@@ -170,7 +21,7 @@ const AppContextProvider = (props) => {
 
   const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:4000";
   const navigate = useNavigate();
-
+  /*  --------------------------------LOADS CREDIT DATA ---------------------------------        */
   const loadCreditsData = async () => {
     try {
       const { data } = await axios.get(`${backendUrl}/api/user/credits`, {
@@ -193,7 +44,7 @@ const AppContextProvider = (props) => {
       toast.error(error.response?.data?.message || "Failed to load credits.");
     }
   };
-
+  /*  -------------------------------- LOGOUT  ---------------------------------        */
   const logOut = () => {
     localStorage.removeItem("token");
     setToken("");
@@ -206,7 +57,7 @@ const AppContextProvider = (props) => {
       loadCreditsData();
     }
   }, [token]);
-
+  /*  --------------------------------  GENERATE IMAGE ---------------------------------        */
   const generateImage = async (prompt) => {
     if (!token) {
       toast.error("Please log in to generate images.");
@@ -235,6 +86,7 @@ const AppContextProvider = (props) => {
     }
   };
 
+  /*  -------------------------------- UPLOAD REMOVE AND BACKGROUND ------------------------------      */
   const uploadAndRemoveBackground = async (file) => {
     setIsLoading(true);
     setError(null);
@@ -287,7 +139,72 @@ const AppContextProvider = (props) => {
     }
   };
 
-  /*          Payment Function          */
+  /*  --------------------------------     INITIATE PAYMENT  ---------------------------------        */
+  // const initiatePayment = async (plan) => {
+  //   if (!plan || !plan.price || !plan.id || !plan.credits) {
+  //     toast.error("Invalid plan details.");
+  //     return;
+  //   }
+
+  //   try {
+  //     const { data } = await axios.post(
+  //       `${backendUrl}/api/transaction/create-order`,
+  //       { amount: plan.price, plan: plan.id, credits: plan.credits },
+  //       {
+  //         headers: { Authorization: `Bearer ${token}` },
+  //       }
+  //     );
+
+  //     if (data.success) {
+  //       const options = {
+  //         key: data.key,
+  //         amount: data.order.amount,
+  //         currency: "INR",
+  //         name: "Imagify",
+  //         description: `Purchase ${plan.credits} credits`,
+  //         order_id: data.order.id,
+  //         handler: async (response) => {
+  //           try {
+  //             const verificationData = await axios.post(
+  //               `${backendUrl}/api/transaction/verify-payment`,
+  //               response,
+  //               {
+  //                 headers: { Authorization: `Bearer ${token}` },
+  //               }
+  //             );
+
+  //             if (verificationData.data.success) {
+  //               setCredit(verificationData.data.credits);
+  //               toast.success("Payment successful! Credits added to your account.");
+  //             } else {
+  //               toast.error("Payment verification failed.");
+  //             }
+  //           } catch (error) {
+  //             console.error("Verification error:", error);
+  //             toast.error("Error verifying payment.");
+  //           }
+  //         },
+  //         prefill: {
+  //           name: user?.name,
+  //           email: user?.email,
+  //         },
+  //         theme: {
+  //           color: "#3399cc",
+  //         },
+  //       };
+
+  //       const rzp = new window.Razorpay(options);
+  //       rzp.open();
+  //     } else {
+  //       toast.error("Failed to create order.");
+  //     }
+  //   } catch (error) {
+  //     console.error("Payment initiation error:", error);
+  //     toast.error("Error initiating payment.");
+  //   }
+  // };
+
+
   const initiatePayment = async (plan) => {
     if (!plan || !plan.price || !plan.id || !plan.credits) {
       toast.error("Invalid plan details.");
@@ -295,6 +212,7 @@ const AppContextProvider = (props) => {
     }
 
     try {
+      console.log("Initiating payment for plan:", plan);
       const { data } = await axios.post(
         `${backendUrl}/api/transaction/create-order`,
         { amount: plan.price, plan: plan.id, credits: plan.credits },
@@ -302,6 +220,8 @@ const AppContextProvider = (props) => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
+
+      console.log("Create order response:", data);
 
       if (data.success) {
         const options = {
@@ -312,24 +232,44 @@ const AppContextProvider = (props) => {
           description: `Purchase ${plan.credits} credits`,
           order_id: data.order.id,
           handler: async (response) => {
+            console.log("Razorpay payment response:", response);
             try {
+              console.log("Verifying payment...");
               const verificationData = await axios.post(
                 `${backendUrl}/api/transaction/verify-payment`,
-                response,
+                {
+                  razorpay_payment_id: response.razorpay_payment_id,
+                  razorpay_order_id: response.razorpay_order_id,
+                  razorpay_signature: response.razorpay_signature,
+                },
                 {
                   headers: { Authorization: `Bearer ${token}` },
                 }
               );
 
+              console.log("Verification response:", verificationData.data);
+
               if (verificationData.data.success) {
                 setCredit(verificationData.data.credits);
                 toast.success("Payment successful! Credits added to your account.");
+                await loadCreditsData();
               } else {
-                toast.error("Payment verification failed.");
+                console.error("Payment verification failed:", verificationData.data);
+                toast.error("Payment verification failed. Please contact support.");
               }
             } catch (error) {
               console.error("Verification error:", error);
-              toast.error("Error verifying payment.");
+              if (error.response) {
+                console.error("Error response:", error.response.data);
+                console.error("Error status:", error.response.status);
+                if (error.response.status === 404) {
+                  toast.error("Transaction not found. Please wait a moment and try again.");
+                } else {
+                  toast.error("Error verifying payment. Please contact support.");
+                }
+              } else {
+                toast.error("Error verifying payment. Please check your connection and try again.");
+              }
             }
           },
           prefill: {
@@ -344,13 +284,19 @@ const AppContextProvider = (props) => {
         const rzp = new window.Razorpay(options);
         rzp.open();
       } else {
-        toast.error("Failed to create order.");
+        console.error("Failed to create order:", data);
+        toast.error("Failed to create order. Please try again.");
       }
     } catch (error) {
       console.error("Payment initiation error:", error);
-      toast.error("Error initiating payment.");
+      if (error.response) {
+        console.error("Error response:", error.response.data);
+        console.error("Error status:", error.response.status);
+      }
+      toast.error("Error initiating payment. Please try again.");
     }
   };
+
 
   const value = {
     user,
@@ -377,3 +323,7 @@ const AppContextProvider = (props) => {
 };
 
 export default AppContextProvider;
+
+
+/////////////////////////////////////////////////////////////////
+

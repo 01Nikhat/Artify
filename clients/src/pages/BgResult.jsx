@@ -25,7 +25,7 @@ const BgResult = () => {
           <div>
             <p className='font-semibold text-gray-600 mb-2'>Original</p>
             {originalImage ? (
-              <img className='rounded-md border w-full h-auto' src={originalImage} alt="Original" />
+              <img className='rounded-md border w-full h-full' src={originalImage} alt="Original" />
             ) : (
               <div className='rounded-md border border-gray-300 h-64 flex items-center justify-center text-gray-400'>
                 No image uploaded

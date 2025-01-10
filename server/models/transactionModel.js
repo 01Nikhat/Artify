@@ -7,6 +7,7 @@ const transactionSchema = new mongoose.Schema({
   credits : {type: Number, required: true},
   payment : {type: Boolean, default: false},
   date : {type: Number},
+  orderId: { type: String, required: true }, // Add this field
 })
 
 //it will search for user is availble or not if not true then go for second operation mongoose.model("transaction",transactionSchema) and create new user 

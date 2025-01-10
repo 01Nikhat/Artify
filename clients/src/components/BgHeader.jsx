@@ -36,7 +36,6 @@ const BgHeader = () => {
             accept="image/*"
           />
           <label className='inline-flex gap-3 px-8 py-3.5 rounded-full cursor-pointer bg-gradient-to-r from-violet-700 to-fuchsia-800 m-auto hover:scale-105 transition-all duration-700' htmlFor="upload1">
-            <img width={20} src={assets.upload_btn_icon} alt="" />
             <p className='text-white text-sm'>Upload your image</p>
           </label>
         </div>

@@ -6,6 +6,7 @@ import remove_bg_icon from './remove_bg_icon.svg'
 import image_w_bg from './image_w_bg.png'
 import image_wo_bg from './image_wo_bg.png'
 import bg_layer from './bg_layer.png'
+import slide_icon from './slide_icon.svg'
 
 import logo from './logo.svg'
 import arrow_icon from './arrow_icon.svg'
@@ -53,7 +54,8 @@ export const assets = {
     upload_icon,
     image_w_bg,
     image_wo_bg,
-    bg_layer
+    bg_layer,
+    slide_icon
 }
 
 export const stepsData = [
@@ -92,23 +94,3 @@ export const testimonialsData = [
     
 ]
 
-export const plans = [
-    {
-      id: 'Basic',
-      price: 10,
-      credits: 100,
-      desc: 'Best for personal use.'
-    },
-    {
-      id: 'Advanced',
-      price: 50,
-      credits: 500,
-      desc: 'Best for business use.'
-    },
-    {
-      id: 'Business',
-      price: 250,
-      credits: 5000,
-      desc: 'Best for enterprise use.'
-    },
-  ]
