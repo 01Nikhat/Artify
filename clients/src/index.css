@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -29,4 +29,43 @@
 }
 .bg-layer{
   background-image: url('./assets/bg_layer.png');
+} */
+
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Apply Outfit font globally */
+* {
+  font-family: 'Outfit', sans-serif;
+}
+
+.placeholder-color {
+  color: #e0e0e0;
+  font-weight: 300;
+}
+
+.slider {
+  -webkit-appearance: none;
+  background: transparent;
+}
+
+.slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 30px;
+  height: 30px;
+  background-image: url(./assets/slide_icon.svg);  
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.bg-layer {
+  background-image: url('./assets/bg_layer.png');
+  background-size: cover; /* Ensures the image covers the whole container */
+  background-position: center; /* Centers the image */
+  height: 100%; /* Make sure it covers the full container height */
 }

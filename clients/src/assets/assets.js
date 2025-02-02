@@ -7,6 +7,15 @@ import image_w_bg from './image_w_bg.png'
 import image_wo_bg from './image_wo_bg.png'
 import bg_layer from './bg_layer.png'
 import slide_icon from './slide_icon.svg'
+import bg_page from "./bg-page.png"
+import example1 from "./example1.png"
+import example2 from "./example2.png"
+import example3 from "./example3.png"
+import example4 from "./example4.png"
+import example5 from "./example5.png"
+import example6 from "./example6.jpg"
+import sky from "./sky.mp4"
+
 
 import logo from './logo.svg'
 import arrow_icon from './arrow_icon.svg'
@@ -55,7 +64,15 @@ export const assets = {
     image_w_bg,
     image_wo_bg,
     bg_layer,
-    slide_icon
+    slide_icon,
+    bg_page,
+    example1,
+    example2,
+    example3,
+    example4,
+    example5,
+    example6,
+    sky
 }
 
 export const stepsData = [
