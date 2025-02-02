@@ -7,7 +7,7 @@ import BgUpload from '../components/BgUpload'
 
 const BgRemoval = () => {
   return (
-    <div>
+    <div  className="absolute inset-0 bg-gradient-to-br from-gray-900 to-gray-800 z-0">
       <BgHeader />
       <BgSteps />
       <BgSlider />

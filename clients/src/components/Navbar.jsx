@@ -78,7 +78,7 @@ const Navbar = () => {
                 className="bg-zinc-800 text-white flex items-center gap-4 px-4 py-2 sm:px-8 sm:py-3 text-sm rounded-full"
                 onClick={() => navigate("/bgremoval")}
               >
-                BackGround Removal <img className="w-3 sm:w-4" src={assets.arrow_icon || "/placeholder.svg"} alt="" />
+                Remove Background <img className="w-3 sm:w-4" src={assets.arrow_icon || "/placeholder.svg"} alt="" />
               </button>
             </div>
             <button

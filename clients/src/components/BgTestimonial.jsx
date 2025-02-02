@@ -3,9 +3,9 @@ import { testimonialsData } from '../assets/assets'
 
 const BgTestimonial = () => {
   return (
-    <div>
+    <div className=" bg-gradient-to-br from-gray-900 to-gray-800 ">
       {/* Title */}
-      <h1 className='mb-12 sm:mb-20 text-center text-2xl md:text-3xl lg:text-4xl mt-4 font-semibold bg-gradient-to-r from-gray-900 to-gray-400 bg-clip-text text-transparent py-5'>Cutomerm Testimonial</h1>
+      <h1 className='mb-12 sm:mb-20 text-center text-2xl md:text-3xl lg:text-4xl mt-4 font-semibold bg-gradient-to-r from-gray-400 to-gray-200 bg-clip-text text-transparent py-5'>Cutomerm Testimonial</h1>
 
       <div className='grid grid-cols-1 md:grid-cols-2 gap-10 max-w-4xl mx-auto px-4 py-8'>
         {
