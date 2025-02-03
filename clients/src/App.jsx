@@ -37,7 +37,7 @@
 
 
 import React, { useContext } from 'react'
-import Home from './pages/home'
+import Home from './pages/Home'
 import BuyCredit from './pages/BuyCredit'
 import Result from './pages/Result'
 import {Routes,Route} from "react-router-dom";
@@ -50,6 +50,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import BgRemoval from './pages/BgRemoval';
 import BgResult from './pages/BgResult';
 import SVGDebugger from './components/SVGDebugger';
+import TextToImage from './pages/TextToImage';
 
 const App = () => {
   const {showLogin} = useContext(AppContext);
@@ -64,6 +65,7 @@ const App = () => {
       {showLogin && <div data-component-name="Login" data-component-path="/components/Login"><Login /></div>}
       <Routes>
         <Route path='/' element={<div data-component-name="Home" data-component-path="/pages/home"><Home /></div>} />
+         <Route path='/text-to-image' element={<div data-component-name="TextToImage" data-component-path="/pages/TextToImage"><TextToImage /></div>} /> 
         <Route path='/result' element={<div data-component-name="Result" data-component-path="/pages/Result"><Result /></div>} />
         <Route path='/buy' element={<div data-component-name="BuyCredit" data-component-path="/pages/BuyCredit"><BuyCredit /></div>} />
         <Route path='/bgremoval' element={<div data-component-name="BgRemoval" data-component-path="/pages/BgRemoval"><BgRemoval /></div>} />

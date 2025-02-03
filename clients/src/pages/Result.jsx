@@ -5,7 +5,7 @@ import { AppContext } from '../context/AppContext.jsx';
 import { useNavigate } from "react-router-dom";
 
 const Result = () => {
-  const [image,setImage] = useState(assets.sample_img_1);
+  const [image,setImage] = useState(assets.example1);
   const [isImageLoaded, setImageLoaded] = useState(false);
   const [loading,setLoading] = useState(false);
   const [input,setInput]  = useState('');
