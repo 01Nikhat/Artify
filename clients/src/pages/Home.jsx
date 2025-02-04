@@ -84,14 +84,15 @@
 
 // export default Home
 
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import image1 from "../assets/text-to-image.mp4";
-import image2 from "../assets/bg-removed.mp4";
+import { motion } from "framer-motion";
+import image1 from "../assets/text-to-image.gif";
+import image2 from "../assets/bg-removed.gif";
 
 const Home = () => {
   const navigate = useNavigate();
-  const videoRefs = [useRef(null), useRef(null)];
+  const imageRefs = [useRef(null), useRef(null)];
 
   const handleRedirect = (path) => {
     navigate(path);
@@ -99,70 +100,74 @@ const Home = () => {
 
   const slides = [
     {
-      video: image1,
+      image: image1,
       title: "Text to Image Generation",
-      description:
-        "Transform your ideas into stunning visuals with our AI-powered text-to-image generation.",
+      description: "Transform your ideas into stunning visuals with our AI-powered text-to-image generation.",
       buttonText: "Try Text to Image",
       redirectPath: "/text-to-image",
     },
     {
-      video: image2,
+      image: image2,
       title: "Background Removal",
-      description:
-        "Effortlessly remove backgrounds from your images with our advanced AI technology.",
+      description: "Effortlessly remove backgrounds from your images with our advanced AI technology.",
       buttonText: "Remove Background",
       redirectPath: "/bgremoval",
     },
   ];
 
   return (
-    <div className="relative w-full h-screen flex">
+    <div className="relative w-full h-screen flex flex-col md:flex-row bg-gradient-to-r from-blue-100 to-purple-100 overflow-y-auto">
       {slides.map((slide, index) => (
-        <div
+        <motion.div
           key={index}
-          className="w-1/2 h-full p-8 flex flex-col justify-center items-center"
+          className="w-full md:w-1/2 h-auto md:h-full p-6 md:p-8 flex flex-col justify-center items-center"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: index * 0.2 }}
         >
-          <div className="relative w-full h-full mb-8">
-            <video
-              ref={videoRefs[index]}
-              className="w-full h-full object-cover" // Ensures the video covers the full width and height
-              src={slide.video}
-              autoPlay
-              loop
-              muted
-              playsInline
-              type="video/mp4"
-              onError={(e) => {
-                e.target.style.display = "none"; // Hide video if it fails to load
-              }}
-            />
+          {/* GIF Container with Auto Sizing */}
+          <div className="relative max-w-fit max-h-fit mb-6 md:mb-8 rounded-lg overflow-hidden shadow-[0_10px_20px_rgba(0,0,0,0.2)] transition-shadow duration-300 hover:shadow-[0_20px_30px_rgba(0,0,0,0.3)]">
             <img
-              src="fallback-image.jpg" // Use a fallback image if video fails
-              alt="Fallback"
-              className="w-full h-full object-cover hidden" // Initially hidden, will be shown if video fails
+              ref={imageRefs[index]}
+              className="w-auto h-auto object-scale-down"
+              src={slide.image}
+              alt={slide.title}
               onError={(e) => {
-                e.target.style.display = "none"; // Hide fallback if it also fails
+                console.error("Image error:", e);
+                e.target.style.display = "none";
               }}
             />
           </div>
-          <div className="text-center text-white">
-            <h1 className="text-4xl font-bold mb-4">{slide.title}</h1>
-            <p className="text-xl mb-8">{slide.description}</p>
-            <button
+          <div className="text-center">
+            <h1 className="text-2xl md:text-4xl font-bold mb-3 md:mb-4 text-gray-800">
+              {slide.title}
+            </h1>
+            <p className="text-lg md:text-xl mb-6 md:mb-8 text-gray-600">
+              {slide.description}
+            </p>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => handleRedirect(slide.redirectPath)}
-              className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full transition duration-300"
+              className="bg-gradient-to-r from-blue-500 to-purple-600 text-white font-bold py-2 px-4 md:py-3 md:px-6 rounded-full transition duration-300 shadow-md hover:shadow-lg"
             >
               {slide.buttonText}
-            </button>
+            </motion.button>
           </div>
-        </div>
+        </motion.div>
       ))}
     </div>
   );
 };
 
 export default Home;
+
+
+
+
+
+
+
 
 
 
