@@ -121,58 +121,78 @@
 // export default Navbar
 
 
-import { useContext } from "react"
-import { assets } from "../assets/assets"
-import { Link, useNavigate, useLocation } from "react-router-dom"
-import { AppContext } from "../context/AppContext"
+import { useContext } from "react";
+import { assets } from "../assets/assets";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { AppContext } from "../context/AppContext";
 
 const Navbar = () => {
-  const navigate = useNavigate()
-  const location = useLocation()
-  const { user, setShowLogin, logOut, credit } = useContext(AppContext)
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { user, setShowLogin, logOut, credit } = useContext(AppContext);
 
-  const isBackgroundRemovalPage = location.pathname === "/bgremoval"
+  const isBackgroundRemovalPage = location.pathname === "/bgremoval";
+  const isBackgroundResult = location.pathname === "/result";
+  const isHomePage = location.pathname === "/";
 
-  const textColorClass = isBackgroundRemovalPage ? "text-white" : "text-black"
+  const textColorClass = isBackgroundRemovalPage || isBackgroundResult ? "text-white" : "text-black";
 
   return (
     <div
       className={`flex items-center justify-between py-4 px-4 sm:px-6 lg:px-8 relative z-50 bg-transparent ${textColorClass}`}
     >
       <Link to="/">
-        <img src={assets.logo || "/placeholder.svg"} alt="" className="w-28 sm:w-32 lg:w-40" />
+        <img
+          src={assets.logo || "/placeholder.svg"}
+          alt="Logo"
+          className={`w-28 sm:w-32 lg:w-40 ${
+            isBackgroundRemovalPage || isBackgroundResult ? "filter invert brightness-0" : ""
+          }`}
+        />
       </Link>
 
       <div>
         {user ? (
           <div className="flex items-center gap-2 sm:gap-3">
-            <div className="flex items-center justify-between">
+            {/* Hide Button on Home Page */}
+            {!isHomePage && (
               <button
                 className={`flex items-center gap-4 px-4 py-2 sm:px-8 sm:py-3 text-sm rounded-full ${
-                  isBackgroundRemovalPage ? "bg-blue-100 text-gray-800" : "bg-zinc-800 text-white"
+                  isBackgroundRemovalPage || isBackgroundResult ? "bg-blue-100 text-gray-800" : "bg-zinc-800 text-white"
                 }`}
-                onClick={() => navigate("/bgremoval")}
+                onClick={() => navigate(isBackgroundRemovalPage ? "/text-to-image" : "/bgremoval")}
               >
-                Remove Background <img className="w-3 sm:w-4" src={assets.arrow_icon || "/placeholder.svg"} alt="" />
+                {isBackgroundRemovalPage ? (
+                  <>
+                    Text to Image Generator
+                    <img className="w-3 sm:w-4 filter invert-0 brightness-0 " src={assets.arrow_icon || "/placeholder.svg"} alt="" />
+                  </>
+                ) : (
+                  <>
+                    Remove Background
+                    <img className="w-3 sm:w-4" src={assets.arrow_icon || "/placeholder.svg"} alt="" />
+                  </>
+                )}
               </button>
-            </div>
+            )}
+
             <button
               onClick={() => navigate("/buy")}
               className="flex items-center gap-2 bg-blue-100 px-4 sm:px-6 py-1.5 sm:py-3 rounded-full hover:scale-105 transition-all duration-700"
             >
-              <img className="w-5" src={assets.credit_star || "/placeholder.svg"} alt="" />
-              <p
-                className={`text-xs sm:text-sm font-medium ${isBackgroundRemovalPage ? "text-gray-600" : "text-gray-600"}`}
-              >
-                Credit Left : {credit}
+              <img className="w-5" src={assets.credit_star || "/placeholder.svg"} alt="Credit" />
+              <p className="text-xs sm:text-sm font-medium text-gray-600">
+                Credit Left: {credit}
               </p>
             </button>
-            <p className={`max-sm:hidden pl-4 ${isBackgroundRemovalPage ? "text-white" : "text-gray-600"}`}>
+
+            <p className={`max-sm:hidden pl-4 ${isBackgroundRemovalPage || isBackgroundResult ? "text-white" : "text-gray-600"}`}>
               {user.name}
             </p>
+
             <div className="relative group">
-              <img src={assets.profile_icon || "/placeholder.svg"} className="w-10 drop-shadow-sm" alt="" />
-              <div className="absolute hidden group-hover:block top-0 right-0 z-10 rounded pt-12 ">
+              <img src={assets.profile_icon || "/placeholder.svg"} className="w-10 drop-shadow-sm" alt="Profile" />
+              <div className="absolute hidden group-hover:block top-0 right-0 z-10 rounded pt-12">
                 <ul className="list-none m-0 p-2 bg-white rounded-md border text-sm text-black">
                   <li onClick={logOut} className="px-2 py-1 cursor-pointer pr-10">
                     Logout
@@ -188,7 +208,7 @@ const Navbar = () => {
             </p>
             <button
               className={`px-7 py-2 sm:px-10 text-sm rounded-full ${
-                isBackgroundRemovalPage ? "bg-white text-black" : "bg-zinc-800 text-white"
+                isBackgroundRemovalPage || isBackgroundResult ? "bg-white text-black" : "bg-zinc-800 text-white"
               }`}
               onClick={() => setShowLogin(true)}
             >
@@ -198,10 +218,11 @@ const Navbar = () => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;
+
 
 
 

@@ -185,14 +185,14 @@
 
 import React, { useRef, useState, useEffect } from 'react';
 import { useAppContext } from '../context/AppContext';
-import original from '../assets/default-original.jpg';
-import processed from '../assets/default-processed.png';
+import originalImage from '../assets/default-original.jpg';
+import processedImage from '../assets/default-processed.png';
 
 const BgResult = () => {
-  const { originalImage, processedImage, isLoading, error, uploadAndRemoveBackground } = useAppContext();
+  const {  isLoading, error, uploadAndRemoveBackground } = useAppContext();
   const fileInputRef = useRef(null);
-  const [displayedOriginal, setDisplayedOriginal] = useState(original);
-  const [displayedProcessed, setDisplayedProcessed] = useState(processed);
+  const [displayedOriginal, setDisplayedOriginal] = useState(originalImage);
+  const [displayedProcessed, setDisplayedProcessed] = useState(processedImage);
 
   useEffect(() => {
     if (originalImage) setDisplayedOriginal(originalImage);

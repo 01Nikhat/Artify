@@ -149,7 +149,7 @@ const Home = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => handleRedirect(slide.redirectPath)}
-              className="bg-gradient-to-r from-blue-500 to-purple-600 text-white font-bold py-2 px-4 md:py-3 md:px-6 rounded-full transition duration-300 shadow-md hover:shadow-lg"
+              className="bg-gradient-to-r from-violet-600 to-fuchsia-800 hover:from-violet-700 hover:to-fuchsia-900 transition-all duration-300 text-white font-bold py-2 px-4 md:py-3 md:px-6 rounded-full transition duration-300 shadow-md hover:shadow-lg"
             >
               {slide.buttonText}
             </motion.button>
