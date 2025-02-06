@@ -15,6 +15,7 @@ import example4 from "./example4.png"
 import example5 from "./example5.png"
 import example6 from "./example6.jpg"
 import sky from "./sky.mp4"
+import artify from "./artify.png"
 
 
 import logo from './logo.svg'
@@ -72,7 +73,8 @@ export const assets = {
     example4,
     example5,
     example6,
-    sky
+    sky,
+    artify
 }
 
 export const stepsData = [
@@ -96,14 +98,14 @@ export const stepsData = [
 export const testimonialsData = [
     {
         image:profile_img_1,
-        name:'Donald Jackman',
+        name:'Md Ashik',
         role:'Graphic Designer',
         stars:5,
         text:`I've been using bg.removal for nearly two years, primarily for Instagram, and it has been incredibly user-friendly, making my work much easier.`
     },
     {
         image:profile_img_2,
-        name:'Richard Nelson',
+        name:'Abhijit Singh',
         role:'Content Creator',
         stars:5,
         text:`I've been using bg.removal for nearly two years, primarily for Instagram, and it has been incredibly user-friendly, making my work much easier.`

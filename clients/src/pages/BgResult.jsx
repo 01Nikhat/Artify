@@ -185,14 +185,14 @@
 
 import React, { useRef, useState, useEffect } from 'react';
 import { useAppContext } from '../context/AppContext';
-import originalImage from '../assets/default-original.jpg';
-import processedImage from '../assets/default-processed.png';
+import original from '../assets/default-original.jpg';
+import processed from '../assets/default-processed.png';
 
 const BgResult = () => {
-  const {  isLoading, error, uploadAndRemoveBackground } = useAppContext();
+  const { originalImage, processedImage, isLoading, error, uploadAndRemoveBackground } = useAppContext();
   const fileInputRef = useRef(null);
-  const [displayedOriginal, setDisplayedOriginal] = useState(originalImage);
-  const [displayedProcessed, setDisplayedProcessed] = useState(processedImage);
+  const [displayedOriginal, setDisplayedOriginal] = useState(original);
+  const [displayedProcessed, setDisplayedProcessed] = useState(processed);
 
   useEffect(() => {
     if (originalImage) setDisplayedOriginal(originalImage);
@@ -235,19 +235,16 @@ const BgResult = () => {
                 <div className='absolute inset-0 flex items-center justify-center'>
                   <div className='border-4 border-violet-600 rounded-full h-12 w-12 border-t-transparent animate-spin'></div>
                 </div>
-              ) : processedImage ? (
+              ) : (
                 <img 
-                  src={displayedProcessed} 
+                  src={displayedProcessed || processed} 
                   alt="Processed" 
                   className='w-full h-full object-contain' 
                 />
-              ) : (
-                <div className='h-full flex items-center justify-center text-gray-500'>
-                  {error ? `Error: ${error}` : 'Processed image will appear here'}
-                </div>
               )}
             </div>
           </div>
+
         </div>
 
         {/* Buttons */}
