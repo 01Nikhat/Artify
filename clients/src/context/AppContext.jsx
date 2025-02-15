@@ -19,7 +19,7 @@ const AppContextProvider = (props) => {
   const [error, setError] = useState(null);
   const [credit, setCredit] = useState(0);
 
-  const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:4000";
+  const backendUrl = import.meta.env.VITE_BACKEND_URL || "import Steps from '../components/steps'";
   const navigate = useNavigate();
   /*  --------------------------------LOADS CREDIT DATA ---------------------------------        */
   const loadCreditsData = async () => {

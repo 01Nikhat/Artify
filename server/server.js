@@ -22,12 +22,12 @@ const app = express();
 
 app.use(express.json());
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  origin: "https://artify-clients.onrender.com" || '',
   credentials: true,
 }));
 
 console.log('CORS configuration:', {
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  origin:  'https://artify-clients.onrender.com',
   credentials: true,
 });
 
@@ -55,10 +55,10 @@ app.get('/', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log('Server running on port ' + PORT);
-  console.log('Environment:', process.env.NODE_ENV);
-  console.log('FRONTEND_URL:', process.env.FRONTEND_URL);
-  console.log('RAZORPAY_KEY_ID set:', !!process.env.RAZORPAY_KEY_ID);
-  console.log('RAZORPAY_KEY_SECRET set:', !!process.env.RAZORPAY_KEY_SECRET);
+  //console.log('Server running on port ' + PORT);
+  //console.log('Environment:', process.env.NODE_ENV);
+ // console.log('FRONTEND_URL:', process.env.FRONTEND_URL);
+ // console.log('RAZORPAY_KEY_ID set:', !!process.env.RAZORPAY_KEY_ID);
+ // console.log('RAZORPAY_KEY_SECRET set:', !!process.env.RAZORPAY_KEY_SECRET);
 });
 
