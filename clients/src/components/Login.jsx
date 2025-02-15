@@ -158,7 +158,7 @@ const Login = () => {
   }, []);
 
   return (
-    <div className='fixed top-0 left-0 right-0 bottom-0 z-150 backdrop-blur-md bg-black/50 flex justify-center items-center pointer-events-auto'>
+    <div className='fixed top-0 left-0 right-0 bottom-0 z-50 backdrop-blur-md bg-black/50 flex justify-center items-center pointer-events-auto'>
       <motion.form
         onSubmit={onSubmitHandler}
         initial={{ opacity: 0.2, y: 50 }}
