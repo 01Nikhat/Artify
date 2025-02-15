@@ -1,1 +1,1 @@
-# imagify
+# Artify
