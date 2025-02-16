@@ -145,6 +145,7 @@ const Login = () => {
         }
       }
     } catch (error) {
+      // console.log("Error occurred:", error);
       console.log("Error occurred:", error);
       toast.error(error.message);
     }
