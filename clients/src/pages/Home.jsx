@@ -177,7 +177,7 @@ const Home = () => {
   const handleRedirect = (path) => {
     navigate(path);
   };
-
+  //below is the assets
   const slides = [
     {
       image: image1,
