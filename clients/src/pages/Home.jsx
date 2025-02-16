@@ -166,8 +166,8 @@
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import image1 from "../assets/text-to-image.gif";
-import image2 from "../assets/bg-removed.gif";
+import image1 from "../assets/texttoimage.gif";
+import image2 from "../assets/bg-remove.gif";
 import "../index.css"; // Ensure your custom styles are in this file.
 
 const Home = () => {
