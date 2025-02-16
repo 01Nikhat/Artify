@@ -36,7 +36,7 @@ export const generateImage = async (req,res) =>{
       
       headers: {
        
-        'x-api-key': "12ba614bf4f8c9e9a49d7da26c717f60e2ac46c5425881a931aad4b7449d43a106a8cf256c0ccf971e5a16dba318ff85",
+        'x-api-key': "6750ffddbc6d34182996ddafbeaccfda7cb839923064e81a41de636970ddb7813bc187e28486ba0325d9e81f15b4bb27",
         
       },
       responseType:'arraybuffer'
