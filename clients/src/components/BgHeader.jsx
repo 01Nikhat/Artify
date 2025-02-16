@@ -32,7 +32,7 @@ const BgHeader = () => {
       <div className="absolute inset-0 bg-gradient-to-br from-gray-900 to-gray-800 z-0"></div>
 
       {/* Content wrapper */}
-      <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between px-4 sm:px-6 lg:px-12 xl:px-24 pt-8 pb-12 lg:py-24 min-h-[calc(100vh-72px)]"> // Changed py-12 to pt-8 pb-12
+      <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between px-4 sm:px-6 lg:px-12 xl:px-24 pt-8 pb-12 lg:py-24 min-h-[calc(100vh-72px)]"> 
         {/* ---------------Left Side-----------*/}
         <div className="text-white max-w-xl text-center lg:text-left mb-12 lg:mb-0">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight">
